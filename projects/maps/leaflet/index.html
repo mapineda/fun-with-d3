@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exacta Systems Map</title>
+    <script src='http://d3js.v4.min.js' charset='utf-8'></script>
+    <style>
+      #map {
+        width: 940px;
+        height: 500px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+    //initialize map and svg overlay
+    var svg = d3.select(.map.getPanes().overlayPane).append('svg'),
+      g = svg.append('g')
+      .attr('class', 'leaflet-zoom-hide');
+
+    //load and project GeoJSON
+    d3.json('use-states.json', function(err, collection) {
+      if (error) {
+        console.log(error +  ' error');
+      }
+    })
+
+    //project points
+    function projectPoint(x, y) {
+      var point = map.latLngToLayerPoint(new L.Latlng(y, x));
+      this.stream.point(point.x, point.y);
+    }
+      //create a d3.geo.path to convert GeoJSON to SVG
+      var transform = d3.geo.transform({point:  projectPoint}),
+      path = d3.geo.path().project(transform);
+
+      //create path elements for each of the features using D3 data join
+      var feature = g.selectAll('path')
+        .data(collection.features)
+        .enter().append('path');
+
+        feature.attr('d', path);
+
+
+
+    </script>
+
+  </body>
+</html>

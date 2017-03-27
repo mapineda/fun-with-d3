@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exploding Dots</title>
+    <style type='text/css'>
+
+      body{
+        width:100%;
+        height: 100%;
+      }
+
+      #canvas {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #666;
+        background-image: url('http://www.advancedgamingassociates.com/test/wp-content/uploads/2013/01/Casino-floor-layout-4.png');
+        background-size: 100% 100%;
+        position: absolute;
+        z-index: -100;
+      }
+      path {
+        fill: none;
+        stroke-width: 1px;
+        stroke: #666;
+      }
+      circle {
+        fill: steelblue;
+      }
+      circle.selected {
+        fill: #ff0000;
+      }
+
+      svg {
+        /*background-color: #3b3b3c;*/
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id='canvas'></div>
+
+    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+	<script>
+
+  // Create data array containing initial coordinates for all circles.
+  // Using D3's data binding to set up the circles.
+  var svg = d3.select("#canvas")
+    .append("svg")
+      .attr("width", "100%")
+      .attr("height", "100%");
+
+
+  function update(){
+
+    var count = Math.floor(Math.random() * 20);
+    d3.range(count).map(() =>{
+      var circle = svg.append('circle');
+      circle.attrs(d => {
+        return {
+          cx: Math.floor(Math.random() * 100) + '%',
+          cy: Math.floor(Math.random() * 100) + '%',
+          r: Math.floor(Math.random() * 0)
+        };
+      });
+      circle.transition().duration(Math.random() * 20000)
+      .attr('r', d => {
+        return Math.floor(Math.random() * 20);
+      }).remove();
+
+    });
+  };
+
+
+
+  update();
+ //Set the interval
+  setInterval(() => {
+    // Update the data bound to the circles.
+    update();
+  }, 100);
+</script>
+    <!-- <script type='text/javascript' src='index.js'></script> -->
+  </body>
+</html>

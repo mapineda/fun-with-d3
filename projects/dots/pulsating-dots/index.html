@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="utf-8">
+  <head>
+    <style>
+      svg {
+        background-color: #3b3b3c;
+        background-url: 'http://www.advancedgamingassociates.com/test/wp-content/uploads/2013/01/Casino-floor-layout-4.png';
+      }
+      circle {
+        fill: none;
+        stroke: #398FBD;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script>
+      var margin = {
+        top: 200,
+        right: 40,
+        bottom: 40,
+        left: 40
+      }, width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+      var y = d3.scaleOrdinal().domain([0, height]);
+
+      var svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      svg.selectAll("circle")
+        .data(y.domain())
+        .enter()
+        .append("circle")
+        .attr("stroke-width", 20)
+        .attr("r", 10)
+        .attr("cx", width / 2)
+        .attr("cy", y)
+        .each(pulse);
+
+      function pulse() {
+        var circle = svg.select("circle");
+        (function repeat() {
+          circle = circle.transition()
+            .duration(2000)
+            .attr("stroke-width", 20)
+            .attr("r", 10)
+            .transition()
+            .duration(2000)
+            .attr('stroke-width', 0.5)
+            .attr("r", 200)
+            .each("end", repeat);
+        })();
+      }
+    </script>
+  </body>
+</html>
